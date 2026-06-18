@@ -12,7 +12,7 @@ A full-stack notes application built with a monorepo architecture.
 
 1. Install dependencies for server and client:
    ```bash
-   cd c:\Users\gilad\OneDrive\מסמכים\noate-app\server
+   cd ..\server
    npm install
    cd ..\client
    npm install

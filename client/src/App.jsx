@@ -120,7 +120,7 @@ const App = () => {
     <div className="app-shell">
       <header className="app-header">
         <div>
-          <h1>הפתקים שלי</h1>
+          <h1>פתקים</h1>
           <p className="app-header__meta">יוצר: {user || 'אורח'}</p>
         </div>
       </header>
