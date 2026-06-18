@@ -49,7 +49,7 @@ const App = () => {
       };
 
       if (selectedNote) {
-        const updated = await updateNote(selectedNote._id, payload);
+        const updated = await updateNote(selectedNote._id, payload, user);
         setNotes((current) => current.map((item) => (item._id === updated._id ? updated : item)));
         setSelectedNote(null);
       } else {
@@ -72,7 +72,7 @@ const App = () => {
     if (!confirmed) return;
 
     try {
-      await deleteNote(id);
+      await deleteNote(id, user);
       setNotes((current) => current.filter((note) => note._id !== id));
       if (selectedNote && selectedNote._id === id) {
         setSelectedNote(null);

@@ -17,22 +17,22 @@ export const fetchNotes = async () => {
 export const createNote = async (noteData) => {
   const response = await fetch(`${API_BASE}/notes`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-user-name': userName },
     body: JSON.stringify(noteData),
   });
   return handleResponse(response);
 };
 
-export const updateNote = async (id, noteData) => {
+export const updateNote = async (id, noteData, userName) => {
   const response = await fetch(`${API_BASE}/notes/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-user-name': userName },
     body: JSON.stringify(noteData),
   });
   return handleResponse(response);
 };
 
-export const deleteNote = async (id) => {
+export const deleteNote = async (id, userName) => {
   const response = await fetch(`${API_BASE}/notes/${id}`, {
     method: 'DELETE',
   });

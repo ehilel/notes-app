@@ -20,6 +20,8 @@ const createNote = async (req, res) => {
 };
 
 const updateNote = async (req, res) => {
+  // Security: ensure only note creator can update
+  const requestingUser = req.headers['x-user-name'];
   try {
     const { id } = req.params;
     const { title, content } = req.body;
@@ -27,6 +29,11 @@ const updateNote = async (req, res) => {
     const note = await Note.findById(id);
     if (!note) {
       return res.status(404).json({ error: 'Note not found' });
+    }
+
+    // Ownership check
+    if (note.creator !== requestingUser) {
+      return res.status(403).json({ error: 'שגיאה: אין לך הרשאה לערוך או למחוק פתק זה' });
     }
 
     note.title = title !== undefined ? title : note.title;
@@ -40,12 +47,19 @@ const updateNote = async (req, res) => {
 };
 
 const deleteNote = async (req, res) => {
+  // Security: ensure only note creator can delete
+  const requestingUser = req.headers['x-user-name'];
   try {
     const { id } = req.params;
-    const note = await Note.findByIdAndDelete(id);
+    const note = await Note.findById(id);
     if (!note) {
       return res.status(404).json({ error: 'Note not found' });
     }
+    // Ownership check
+    if (note.creator !== requestingUser) {
+      return res.status(403).json({ error: 'שגיאה: אין לך הרשאה לערוך או למחוק פתק זה' });
+    }
+    await Note.findByIdAndDelete(id);
     return res.json({ message: 'Note deleted' });
   } catch (error) {
     return res.status(500).json({ error: 'Could not delete note' });

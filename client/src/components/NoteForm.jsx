@@ -16,20 +16,13 @@ const NoteForm = ({ selectedNote, onSave, onCancel, creator }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Attempt to save the note via the parent handler.
-    // The onSave function handles API interaction and error management.
-    // After a successful save (i.e., no exception thrown), reset form fields.
     try {
       await onSave({ title: title.trim(), content: content.trim(), creator });
-      // Reset only when creating a new note (selectedNote is falsy).
       if (!selectedNote) {
         setTitle('');
         setContent('');
-        // Increment a counter to force any dependent effects to run if needed.
       }
     } catch (e) {
-      // onSave already handles errors and updates UI; just rethrow to satisfy any caller.
-      // No state reset on failure.
       console.error(e);
     }
   };

@@ -14,10 +14,20 @@ const NoteCard = ({ note, onEdit, onDelete, onToggleStar }) => {
       </div>
       <p className="note-card__content">{note.content || 'אין תוכן נוסף.'}</p>
       <div className="note-card__actions">
-        <button onClick={() => onEdit(note)}>ערוך</button>
-        <button className="danger" onClick={() => onDelete(note._id)}>
-          מחק
-        </button>
+        {(() => {
+          const currentUser = localStorage.getItem('my_notes_app_user');
+          if (currentUser && currentUser === note.creator) {
+            return (
+              <>
+                <button onClick={() => onEdit(note)}>ערוך</button>
+                <button className="danger" onClick={() => onDelete(note._id)}>
+                  מחק
+                </button>
+              </>
+            );
+          }
+          return null;
+        })()}
       </div>
     </article>
   );
